@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+   
+	<context:annotation-config/>
+	
+	<!-- 파일업로드를 위한 resolver -->
+	<bean id="multipartResolver" 
+ 	  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+ 		<property name="defaultEncoding" value="utf-8"/>
+ 		<property name="maxUploadSize" value="-1"/>
+ 	</bean>
+	
+	<!-- responseBody를 위해 JSON처리 Converter -->
+	<bean id="jsonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- View Resolver설정 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="suffix" value=".jsp"/> <!-- 확장자 지정 -->
+    	<property name="prefix" value="/WEB-INF/jsp/"/><!-- 위치 지정 -->
+    </bean>
+   
+   
+   	<bean class="spring.control.ListControl" name="/list.inc"/>
+   
+    <context:component-scan base-package="spring.control"/>
+    
+    
+    
+</beans>
+
+
+
+
+
+
+
+
